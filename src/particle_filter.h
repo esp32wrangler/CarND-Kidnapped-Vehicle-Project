@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include "helper_functions.h"
+#include <random>
 
 struct Particle {
   int id;
@@ -63,8 +64,8 @@ class ParticleFilter {
    * @param predicted Vector of predicted landmark observations
    * @param observations Vector of landmark observations
    */
-  void dataAssociation(std::vector<LandmarkObs> predicted, 
-                       std::vector<LandmarkObs>& observations);
+  std::vector<std::pair<LandmarkObs, LandmarkObs>> dataAssociation(std::vector<LandmarkObs> predicted, 
+                       std::vector<LandmarkObs>& observations, double max_dist);
   
   /**
    * updateWeights Updates the weights for each particle based on the likelihood
@@ -119,7 +120,8 @@ class ParticleFilter {
   bool is_initialized;
   
   // Vector of weights of all particles
-  std::vector<double> weights; 
+  std::vector<double> weights;
+  std::default_random_engine gen;
 };
 
 #endif  // PARTICLE_FILTER_H_
