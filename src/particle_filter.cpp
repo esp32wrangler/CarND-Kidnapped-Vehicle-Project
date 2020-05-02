@@ -142,9 +142,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    */
   
   
-  double gd_const_term =1/sqrt(2*M_PI*std_landmark[0]*std_landmark[1]);
-  double gd_xmul =-(1/(2*std_landmark[0]));
-  double gd_ymul =-(1/(2*std_landmark[1]));
+  double gd_const_term =1/(2 * M_PI * std_landmark[0] * std_landmark[1]);
+  double gd_xmul =-(1/(2*pow(std_landmark[0], 2)));
+  double gd_ymul =-(1/(2*pow(std_landmark[1], 2)));
 
   
   for (auto it = particles.begin(); it != particles.end(); ++it)
@@ -193,8 +193,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           -(1/(2*std_landmark[1]))*pow(pairing.first.y - pairing.second.y, 2)
           );*/
       double gaussdens = gd_const_term * exp(
-          gd_xmul*(pairing.first.x - pairing.second.x)*(pairing.first.x - pairing.second.x) +
-          gd_ymul*(pairing.first.y - pairing.second.y)*(pairing.first.y - pairing.second.y)
+          gd_xmul*pow(pairing.first.x - pairing.second.x, 2) +
+          gd_ymul*pow(pairing.first.y - pairing.second.y, 2)
       );
      
       weight *= gaussdens;
